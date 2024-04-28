@@ -2,25 +2,12 @@ import Categoria from "./Categoria";
 import useQuiosco from "../hooks/useQuiosco";
 import clienteAxios from "../config/axios";
 import { useNavigate } from "react-router-dom";
-import useSWR from "swr";
 
 function Sidebar() {
-  const { categorias } = useQuiosco();
+  const { categorias, userToken } = useQuiosco();
 
   const token = localStorage.getItem("AUTH_TOKEN");
   const navigate = useNavigate();
-
-  const { data: user } = useSWR("/api/user", () =>
-    clienteAxios("/api/user", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((res) => res.data)
-      .catch((error) => {
-        throw Error(error?.response?.data?.errors);
-      })
-  );
 
   const logout = async () => {
     try {
@@ -42,7 +29,7 @@ function Sidebar() {
       <div className="p-4">
         <img className="w-40" src="../img/logo.svg" alt="imagen logo" />
       </div>
-      <p className="my-10 text-xl text-center">Hola: {user?.name}</p>
+      <p className="my-10 text-xl text-center">Hola: {userToken}</p>
       <div className="mt-10">
         {categorias.map((categoria) => (
           <Categoria key={categoria.id} categoria={categoria} />

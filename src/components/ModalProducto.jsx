@@ -4,8 +4,17 @@ import { useState, useEffect } from "react";
 function ModalProducto() {
   const { producto, handleClickModal, handleAgregarPedido, pedido } =
     useQuiosco();
+
   const [cantidad, setCantidad] = useState(1);
   const [edicion, setEdicion] = useState(false);
+  /*
+  const [datosBBDD, setDatosBBDD] = useState([]);
+
+  useEffect(() => {
+    const cargarDatos = axios("api/categorias");
+    setDatosBBDD(cargarDatos);
+  }, [pedido]);
+*/
   useEffect(() => {
     if (pedido.some((pedidoState) => pedidoState.id === producto.id)) {
       const productoEdicion = pedido.filter(

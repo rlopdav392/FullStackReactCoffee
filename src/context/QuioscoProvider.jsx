@@ -12,6 +12,11 @@ const QuioscoProvider = ({ children }) => {
   const [pedido, setPedido] = useState([]);
   const [total, setTotal] = useState(0);
   const [productosDB, setProductosDB] = useState([]);
+  const [userToken, setUserToken] = useState();
+
+  const handleSetUserToken = (userName) => {
+    setUserToken(userName);
+  };
 
   useEffect(() => {
     const nuevoTotal = pedido.reduce(
@@ -37,10 +42,10 @@ const QuioscoProvider = ({ children }) => {
 
   const obtenerCategorias = async () => {
     try {
-      const { data } = await clienteAxios("/api/categorias");
-      console.log(data.data);
-      setCategorias(data.data);
-      setCategoriaActual(data.data[0]);
+      const respuesta = await clienteAxios("/api/categorias");
+      console.log(respuesta);
+      setCategorias(respuesta.data.data);
+      setCategoriaActual(respuesta.data.data[0]);
     } catch (error) {
       console.log(error);
     }
@@ -111,6 +116,8 @@ const QuioscoProvider = ({ children }) => {
         handleEliminarProductoPedido,
         total,
         productosDB,
+        handleSetUserToken,
+        userToken,
       }}
     >
       {children}
